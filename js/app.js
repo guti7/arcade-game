@@ -28,8 +28,8 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 var Player = function() {
   this.sprite = 'images/char-boy.png';
-  this.x = 0;
-  this.y = 0;
+  this.x = 2 * 101;
+  this.y = 5 * 83;
 };
 
 Player.prototype.update = function() {
