@@ -44,6 +44,8 @@ var Player = function() {
   this.sprite = 'images/char-boy.png';
   this.x = 2 * GRID.CELL_WIDTH;
   this.y = 5 * GRID.CELL_HEIGHT;
+  // this.x = 1 * GRID.CELL_WIDTH; //test
+  // this.y = 1 * GRID.CELL_HEIGHT; //test
   this.updateLocation;
 };
 
@@ -106,12 +108,22 @@ Player.prototype.handleInput = function(keycode) {
   }
 }
 
+Player.prototype.hasCollided = function() {
+  for (var i = 0; i < allEnemies.length; i++) {
+    var differenceX = allEnemies[i].x - player.x;
+    var differenceY = allEnemies[i].y - player.y;
+    if (differenceX >= 0 && differenceX <= 101 && differenceY >= 0 && differenceY <= 83) {
+      return true;
+    }
+  }
+  return false;
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const allEnemies = [new Enemy()];
-const player = new Player();
+let player = new Player();
 
 
 
