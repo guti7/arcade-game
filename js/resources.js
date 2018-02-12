@@ -82,14 +82,16 @@
      * for loading have in fact been properly loaded.
      */
     function isReady() {
-        var ready = true;
-        for(var k in resourceCache) {
-            if(resourceCache.hasOwnProperty(k) &&
-               !resourceCache[k]) {
-                ready = false;
+        // var ready = true;
+        for(var url in resourceCache) {
+            if(resourceCache.hasOwnProperty(url) &&
+               !resourceCache[url]) {
+                // ready = false;
+                return false;
             }
         }
-        return ready;
+        // return ready;
+        return true;
     }
 
     /* This function will add a function to the callback stack that is called
