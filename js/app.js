@@ -18,7 +18,7 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.speedX * dt;
-    if(this.x >= 510) {
+    if(this.x >= ctx.canvas.width) {
       this.x = -10;
     }
 };
@@ -28,13 +28,22 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+const GRID = {
+  CELL_WIDTH: 101,
+  CELL_HEIGHT: 83,
+  MIN_WIDTH: 0,
+  MAX_WIDTH: 404,
+  MIN_HEIGHT: 0,
+  MAX_HEIGHT: 415
+};
+
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
   this.sprite = 'images/char-boy.png';
-  this.x = 2 * 101;
-  this.y = 5 * 83;
+  this.x = 2 * GRID.CELL_WIDTH;
+  this.y = 5 * GRID.CELL_HEIGHT;
   this.updateLocation;
 };
 
@@ -63,11 +72,11 @@ Player.prototype.canMove = function(direction) {
   switch (direction) {
     case 'x':
       const deltaX = this.updateLocation[direction];
-      return this.x + deltaX >= 0 && this.x + deltaX <= 404;
+      return this.x + deltaX >= GRID.MIN_WIDTH && this.x + deltaX <= GRID.MAX_WIDTH;
 
     case 'y':
       const deltaY = this.updateLocation[direction];
-      return this.y + deltaY >= 0 && this.y + deltaY <= 415;
+      return this.y + deltaY >= GRID.MIN_HEIGHT && this.y + deltaY <= GRID.MAX_HEIGHT;
     default:
   }
 };
@@ -80,16 +89,16 @@ Player.prototype.render = function() {
 Player.prototype.handleInput = function(keycode) {
   switch (keycode) {
     case 'left':
-      this.updateLocation['x'] = -101;
+      this.updateLocation['x'] = -GRID.CELL_WIDTH;
       break;
     case 'right':
-      this.updateLocation['x'] = 101;
+      this.updateLocation['x'] = GRID.CELL_WIDTH;
       break;
     case 'up':
-      this.updateLocation['y'] = -83;
+      this.updateLocation['y'] = -GRID.CELL_HEIGHT;
       break;
     case 'down':
-      this.updateLocation['y'] = 83;
+      this.updateLocation['y'] = GRID.CELL_HEIGHT;
       break;
     default:
       // Ignore undefined input
