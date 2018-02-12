@@ -35,10 +35,41 @@ var Player = function() {
   this.sprite = 'images/char-boy.png';
   this.x = 2 * 101;
   this.y = 5 * 83;
+  this.updateLocation;
 };
 
+// focus purely on updating the data/properties related to the object.
+// Do your drawing in your render methods.
 Player.prototype.update = function() {
-  console.log("updating location: how?");
+  for (loc in this.updateLocation) {
+    if (this.canMove(loc)) {
+      switch (loc) {
+        case 'x':
+          this.x += this.updateLocation['x'];
+          break;
+        case 'y':
+          this.y += this.updateLocation['y'];
+          break;
+        default:
+          console.log("Fatal Update Error: loc key not found")
+          break;
+      }
+    }
+  }
+  this.updateLocation = {};
+};
+
+Player.prototype.canMove = function(direction) {
+  switch (direction) {
+    case 'x':
+      const deltaX = this.updateLocation[direction];
+      return this.x + deltaX >= 0 && this.x + deltaX <= 404;
+
+    case 'y':
+      const deltaY = this.updateLocation[direction];
+      return this.y + deltaY >= 0 && this.y + deltaY <= 415;
+    default:
+  }
 };
 
 // TODO: Refactor: Exactly as Enemy.prototype.update
@@ -49,27 +80,20 @@ Player.prototype.render = function() {
 Player.prototype.handleInput = function(keycode) {
   switch (keycode) {
     case 'left':
-      if (this.x > 0) {
-        this.x -= 101;
-      }
+      this.updateLocation['x'] = -101;
       break;
     case 'right':
-      if (this.x < 404) {
-        this.x += 101;
-      }
+      this.updateLocation['x'] = 101;
       break;
     case 'up':
-      if (this.y > 0) {
-        this.y -= 83;
-      }
+      this.updateLocation['y'] = -83;
       break;
     case 'down':
-      if (this.y < 415) {
-        this.y += 83;
-      }
+      this.updateLocation['y'] = 83;
       break;
     default:
       // Ignore undefined input
+      break;
   }
 }
 
