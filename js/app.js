@@ -8,6 +8,7 @@ var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
     this.x = 0;
     this.y = 0;
+    this.speedX = 100;
 };
 
 // Update the enemy's position, required method for game
@@ -16,7 +17,7 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x += 100 * dt;
+    this.x += this.speedX * dt;
     if(this.x >= 510) {
       this.x = -10;
     }
@@ -45,8 +46,8 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Player.prototype.handleInput = function(input) {
-  switch (input) {
+Player.prototype.handleInput = function(keycode) {
+  switch (keycode) {
     case 'left':
       if (this.x > 0) {
         this.x -= 101;
