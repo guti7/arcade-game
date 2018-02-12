@@ -46,22 +46,29 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(input) {
-  console.log("handling player keyboard input");
   switch (input) {
     case 'left':
-      console.log("player moves left");
+      if (this.x > 0) {
+        this.x -= 101;
+      }
       break;
     case 'right':
-      console.log("player moves right");
+      if (this.x < 404) {
+        this.x += 101;
+      }
       break;
     case 'up':
-      console.log("player moves up");
+      if (this.y > 0) {
+        this.y -= 83;
+      }
       break;
     case 'down':
-      console.log("player moves down");
+      if (this.y < 415) {
+        this.y += 83;
+      }
       break;
     default:
-      console.log("undefined");
+      // Ignore undefined input
   }
 }
 
