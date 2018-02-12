@@ -45,8 +45,24 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Player.prototype.handleInput = function() {
-  console.log("handling keyboard input");
+Player.prototype.handleInput = function(input) {
+  console.log("handling player keyboard input");
+  switch (input) {
+    case 'left':
+      console.log("player moves left");
+      break;
+    case 'right':
+      console.log("player moves right");
+      break;
+    case 'up':
+      console.log("player moves up");
+      break;
+    case 'down':
+      console.log("player moves down");
+      break;
+    default:
+      console.log("undefined");
+  }
 }
 
 
