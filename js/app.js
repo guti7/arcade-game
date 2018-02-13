@@ -1,3 +1,7 @@
+
+/*
+* Constants for grid values
+*/
 const GRID = {
   CELL_WIDTH: 101,
   CELL_HEIGHT: 83,
@@ -9,23 +13,34 @@ const GRID = {
   PLAYER_START_Y: 5
 };
 
-
+/*
+* Provides a random int inclusive
+*/
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
 }
 
+/*
+* Provides a random value between min and max
+*/
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+/*
+* Instantiates the enemies for the board
+*/
 function setupEnemies(count) {
   for (var i = 0; i < count; i++) {
     allEnemies.push(createEnemy());
   }
 }
 
+/*
+* Returns a new enemy
+*/
 function createEnemy(x) {
   var positionX;
   if (x) {
@@ -101,6 +116,9 @@ Player.prototype.update = function() {
   this.updateLocation = {};
 };
 
+/*
+* Checks the bounds of the grid to allow the player to move
+*/
 Player.prototype.canMove = function(direction) {
   switch (direction) {
     case 'x':
@@ -138,6 +156,9 @@ Player.prototype.handleInput = function(keycode) {
   }
 }
 
+/*
+* Checks for player and enemy collisions
+*/
 Player.prototype.hasCollided = function() {
   for (var i = 0; i < allEnemies.length; i++) {
     var currEnemy = allEnemies[i];
@@ -151,6 +172,9 @@ Player.prototype.hasCollided = function() {
   return false;
 };
 
+/*
+* Checks for completion of the level
+*/
 Player.prototype.hasWon = function() {
   return player.y === GRID.MIN_HEIGHT;
 }
