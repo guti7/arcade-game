@@ -39,7 +39,8 @@ function setupEnemies(count) {
 }
 
 /*
-* Returns a new enemy
+* Create an enemy with random location and speed, if x value is given the enemy
+* starts that given location.
 */
 function createEnemy(x) {
   var positionX;
@@ -53,6 +54,20 @@ function createEnemy(x) {
   return new Enemy(positionX, positionY, speed);
 }
 
+/*
+* Class representing a GameObject on the board
+*/
+var GameObject = function(x, y, sprite) {
+  this.sprite = sprite;
+  this.x = x;
+  this.y = y;
+}
+
+// Draw the game object on the screen, required method for the game
+GameObject.prototype.render = function() {
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
 
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
@@ -61,11 +76,12 @@ var Enemy = function(x, y, speed) {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
-    this.x = x;
-    this.y = y;
+    GameObject.call(this, x, y, 'images/enemy-bug.png');
     this.speedX = speed;
 };
+
+Enemy.prototype = Object.create(GameObject.prototype);
+Enemy.prototype.constructor = Enemy;
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -80,20 +96,18 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
-  this.sprite = 'images/char-boy.png';
-  this.x = GRID.PLAYER_START_X * GRID.CELL_WIDTH;
-  this.y = GRID.PLAYER_START_Y * GRID.CELL_HEIGHT;
+  const x = GRID.PLAYER_START_X * GRID.CELL_WIDTH;
+  const y = GRID.PLAYER_START_Y * GRID.CELL_HEIGHT;
+  GameObject.call(this, x, y, 'images/char-boy.png');
   this.updateLocation;
 };
+
+Player.prototype = Object.create(GameObject.prototype);
+Player.prototype.constructor = Player;
 
 // focus purely on updating the data/properties related to the object.
 // Do your drawing in your render methods.
@@ -128,10 +142,6 @@ Player.prototype.canMove = function(direction) {
       return this.y + delta >= GRID.MIN_HEIGHT && this.y + delta <= GRID.MAX_HEIGHT;
     default:
   }
-};
-
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 Player.prototype.handleInput = function(keycode) {
