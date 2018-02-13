@@ -19,7 +19,9 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     this.x += this.speedX * dt;
     if(this.x >= ctx.canvas.width) {
-      this.x = -10;
+      // this.x = -10;
+      var indexToRemove = allEnemies.indexOf(this);
+      allEnemies.splice(indexToRemove, 1, createEnemy(-10));
     }
 };
 
@@ -134,10 +136,39 @@ let enemyC = new Enemy(303, 249, 178);
 let enemyD = new Enemy(404, 166, 250);
 var testEnemies = [enemyA, enemyB, enemyC, enemyD];
 
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+}
+
+function setupEnemies(count) {
+  for (var i = 0; i < count; i++) {
+    allEnemies.push(createEnemy());
+  }
+}
+
+function createEnemy(x) {
+  var positionX;
+  if (x) {
+    positionX = x;
+  } else {
+    positionX = getRandomArbitrary(GRID.MIN_WIDTH, GRID.MAX_WIDTH);
+  }
+  var positionY = getRandomIntInclusive(1, 3) * GRID.CELL_HEIGHT;
+  var speed = getRandomArbitrary(100, 300);
+  return new Enemy(positionX, positionY, speed);
+}
+
+let allEnemies = [];
+setupEnemies(4);
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-const allEnemies =  testEnemies;
 let player = new Player();
 
 
