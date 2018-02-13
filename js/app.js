@@ -8,7 +8,7 @@ var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
     this.x = 0;
     this.y = 0;
-    this.speedX = 0;
+    this.speedX = 100;
 };
 
 // Update the enemy's position, required method for game
@@ -110,19 +110,34 @@ Player.prototype.handleInput = function(keycode) {
 
 Player.prototype.hasCollided = function() {
   for (var i = 0; i < allEnemies.length; i++) {
-    var differenceX = allEnemies[i].x - player.x;
-    var differenceY = allEnemies[i].y - player.y;
-    if (differenceX >= 0 && differenceX <= 101 && differenceY >= 0 && differenceY <= 83) {
+    var currEnemy = allEnemies[i];
+    if (currEnemy.x < player.x + GRID.CELL_WIDTH &&
+        currEnemy.x + GRID.CELL_WIDTH > player.x &&
+        currEnemy.y < player.y + GRID.CELL_HEIGHT &&
+        GRID.CELL_HEIGHT + currEnemy.y > player.y) {
       return true;
     }
   }
   return false;
 };
 
+let enemyA = new Enemy();
+let enemyB = new Enemy();
+enemyB.x = 202;
+enemyB.y = 83;
+let enemyC = new Enemy();
+enemyC.x = 303;
+enemyC.y = 166;
+let enemyD = new Enemy();
+enemyD.x = 404;
+enemyD.y = 249;
+var testEnemies = [enemyA, enemyB, enemyC, enemyD];
+// testEnemies = [enemyB];
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-const allEnemies = [new Enemy()];
+const allEnemies =  testEnemies; //[new Enemy()];
 let player = new Player();
 
 
