@@ -102,10 +102,10 @@ var Engine = (function(global) {
     function checkGameState() {
       setTimeout(function () {
         if (player.hasCollided()) {
-          alert("you lost! Start over?")
+          alert("You lost! Start over?")
           reset();
         } else if (player.hasWon()) {
-          alert("you won! Start over?");
+          alert("You won! Start over?");
           reset();
         }
       }, 600);

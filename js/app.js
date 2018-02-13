@@ -120,14 +120,12 @@ Player.prototype.update = function() {
 * Checks the bounds of the grid to allow the player to move
 */
 Player.prototype.canMove = function(direction) {
+  const delta = this.updateLocation[direction];
   switch (direction) {
     case 'x':
-      const deltaX = this.updateLocation[direction];
-      return this.x + deltaX >= GRID.MIN_WIDTH && this.x + deltaX <= GRID.MAX_WIDTH;
-
+      return this.x + delta >= GRID.MIN_WIDTH && this.x + delta <= GRID.MAX_WIDTH;
     case 'y':
-      const deltaY = this.updateLocation[direction];
-      return this.y + deltaY >= GRID.MIN_HEIGHT && this.y + deltaY <= GRID.MAX_HEIGHT;
+      return this.y + delta >= GRID.MIN_HEIGHT && this.y + delta <= GRID.MAX_HEIGHT;
     default:
   }
 };
