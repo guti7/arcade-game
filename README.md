@@ -4,7 +4,7 @@
 Play the indefinite frogger clone!
 
 ## Getting started
-1. Download or clone this project
+1. Download or clone this project.
 1. Open `index.html` with your favorite browser.
 1. To play, Use direction keys to move player `up`, `down`, `left` and `right`.
 1. Avoid enemy bugs and make it across the water!
