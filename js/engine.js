@@ -96,6 +96,9 @@ var Engine = (function(global) {
         player.update();
     }
 
+    /*
+    * Resets the game to new state according to how the game was completed.
+    */
     function checkGameState() {
       setTimeout(function () {
         if (player.hasCollided()) {
@@ -106,12 +109,6 @@ var Engine = (function(global) {
           reset();
         }
       }, 600);
-    }
-
-    function checkCollisions() {
-      if (player.hasCollided()){
-        reset();
-      }
     }
 
     /* This function initially draws the "game level", it will then call
@@ -183,6 +180,9 @@ var Engine = (function(global) {
         newGame();
     }
 
+    /*
+    * Creates a new game by reseting player to initial position
+    */
     function newGame() {
       player = new Player();
     }
