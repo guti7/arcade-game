@@ -1,14 +1,14 @@
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.x = 0;
-    this.y = 0;
-    this.speedX = 100;
+    this.x = x;
+    this.y = y;
+    this.speedX = speed;
 };
 
 // Update the enemy's position, required method for game
@@ -18,8 +18,10 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.speedX * dt;
-    if(this.x >= 510) {
-      this.x = -10;
+    if(this.x >= ctx.canvas.width) {
+      // this.x = -10;
+      var indexToRemove = allEnemies.indexOf(this);
+      allEnemies.splice(indexToRemove, 1, createEnemy(-10));
     }
 };
 
@@ -28,13 +30,24 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+const GRID = {
+  CELL_WIDTH: 101,
+  CELL_HEIGHT: 83,
+  MIN_WIDTH: 0,
+  MAX_WIDTH: 404,
+  MIN_HEIGHT: 0,
+  MAX_HEIGHT: 415,
+  PLAYER_START_X: 2,
+  PLAYER_START_Y: 5
+};
+
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
   this.sprite = 'images/char-boy.png';
-  this.x = 2 * 101;
-  this.y = 5 * 83;
+  this.x = GRID.PLAYER_START_X * GRID.CELL_WIDTH;
+  this.y = GRID.PLAYER_START_Y * GRID.CELL_HEIGHT;
   this.updateLocation;
 };
 
@@ -63,11 +76,11 @@ Player.prototype.canMove = function(direction) {
   switch (direction) {
     case 'x':
       const deltaX = this.updateLocation[direction];
-      return this.x + deltaX >= 0 && this.x + deltaX <= 404;
+      return this.x + deltaX >= GRID.MIN_WIDTH && this.x + deltaX <= GRID.MAX_WIDTH;
 
     case 'y':
       const deltaY = this.updateLocation[direction];
-      return this.y + deltaY >= 0 && this.y + deltaY <= 415;
+      return this.y + deltaY >= GRID.MIN_HEIGHT && this.y + deltaY <= GRID.MAX_HEIGHT;
     default:
   }
 };
@@ -80,16 +93,16 @@ Player.prototype.render = function() {
 Player.prototype.handleInput = function(keycode) {
   switch (keycode) {
     case 'left':
-      this.updateLocation['x'] = -101;
+      this.updateLocation['x'] = -GRID.CELL_WIDTH;
       break;
     case 'right':
-      this.updateLocation['x'] = 101;
+      this.updateLocation['x'] = GRID.CELL_WIDTH;
       break;
     case 'up':
-      this.updateLocation['y'] = -83;
+      this.updateLocation['y'] = -GRID.CELL_HEIGHT;
       break;
     case 'down':
-      this.updateLocation['y'] = 83;
+      this.updateLocation['y'] = GRID.CELL_HEIGHT;
       break;
     default:
       // Ignore undefined input
@@ -97,12 +110,66 @@ Player.prototype.handleInput = function(keycode) {
   }
 }
 
+Player.prototype.hasCollided = function() {
+  for (var i = 0; i < allEnemies.length; i++) {
+    var currEnemy = allEnemies[i];
+    if (currEnemy.x < player.x + GRID.CELL_WIDTH &&
+        currEnemy.x + GRID.CELL_WIDTH > player.x &&
+        currEnemy.y < player.y + GRID.CELL_HEIGHT &&
+        GRID.CELL_HEIGHT + currEnemy.y > player.y) {
+      return true;
+    }
+  }
+  return false;
+};
 
+Player.prototype.hasWon = function() {
+  if (player.y === GRID.MIN_HEIGHT) {
+    return true;
+  }
+  return false;
+}
+
+let enemyA = new Enemy(202, 83, 100);
+let enemyB = new Enemy(202, 166, 200);
+let enemyC = new Enemy(303, 249, 178);
+let enemyD = new Enemy(404, 166, 250);
+var testEnemies = [enemyA, enemyB, enemyC, enemyD];
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+}
+
+function setupEnemies(count) {
+  for (var i = 0; i < count; i++) {
+    allEnemies.push(createEnemy());
+  }
+}
+
+function createEnemy(x) {
+  var positionX;
+  if (x) {
+    positionX = x;
+  } else {
+    positionX = getRandomArbitrary(GRID.MIN_WIDTH, GRID.MAX_WIDTH);
+  }
+  var positionY = getRandomIntInclusive(1, 3) * GRID.CELL_HEIGHT;
+  var speed = getRandomArbitrary(100, 300);
+  return new Enemy(positionX, positionY, speed);
+}
+
+let allEnemies = [];
+setupEnemies(4);
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-const allEnemies = [new Enemy()];
-const player = new Player();
+let player = new Player();
 
 
 
