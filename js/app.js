@@ -121,6 +121,13 @@ Player.prototype.hasCollided = function() {
   return false;
 };
 
+Player.prototype.hasWon = function() {
+  if (player.y === GRID.MIN_HEIGHT) {
+    return true;
+  }
+  return false;
+}
+
 let enemyA = new Enemy();
 let enemyB = new Enemy();
 enemyB.x = 202;

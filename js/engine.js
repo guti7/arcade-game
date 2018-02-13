@@ -97,7 +97,15 @@ var Engine = (function(global) {
     }
 
     function checkGameState() {
-      checkCollisions();
+      setTimeout(function () {
+        if (player.hasCollided()) {
+          alert("you lost! Start over?")
+          reset();
+        } else if (player.hasWon()) {
+          alert("you won! Start over?");
+          reset();
+        }
+      }, 600);
     }
 
     function checkCollisions() {
