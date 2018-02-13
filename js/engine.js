@@ -79,7 +79,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        checkCollisions();
+        checkGameState();
     }
 
     /* This is called by the update function and loops through all of the
@@ -94,6 +94,10 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+    }
+
+    function checkGameState() {
+      checkCollisions();
     }
 
     function checkCollisions() {
@@ -167,7 +171,7 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        console.log("Collision detected: Resetting game");
+        console.log("New Game:");
         newGame();
     }
 

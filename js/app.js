@@ -8,7 +8,7 @@ var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
     this.x = 0;
     this.y = 0;
-    this.speedX = 100;
+    this.speedX = 0;
 };
 
 // Update the enemy's position, required method for game
