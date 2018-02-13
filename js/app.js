@@ -34,7 +34,9 @@ const GRID = {
   MIN_WIDTH: 0,
   MAX_WIDTH: 404,
   MIN_HEIGHT: 0,
-  MAX_HEIGHT: 415
+  MAX_HEIGHT: 415,
+  PLAYER_START_X: 2,
+  PLAYER_START_Y: 5
 };
 
 // Now write your own player class
@@ -42,10 +44,8 @@ const GRID = {
 // a handleInput() method.
 var Player = function() {
   this.sprite = 'images/char-boy.png';
-  this.x = 2 * GRID.CELL_WIDTH;
-  this.y = 5 * GRID.CELL_HEIGHT;
-  // this.x = 1 * GRID.CELL_WIDTH; //test
-  // this.y = 1 * GRID.CELL_HEIGHT; //test
+  this.x = GRID.PLAYER_START_X * GRID.CELL_WIDTH;
+  this.y = GRID.PLAYER_START_Y * GRID.CELL_HEIGHT;
   this.updateLocation;
 };
 
@@ -139,12 +139,11 @@ let enemyD = new Enemy();
 enemyD.x = 404;
 enemyD.y = 249;
 var testEnemies = [enemyA, enemyB, enemyC, enemyD];
-// testEnemies = [enemyB];
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-const allEnemies =  testEnemies; //[new Enemy()];
+const allEnemies =  testEnemies;
 let player = new Player();
 
 
